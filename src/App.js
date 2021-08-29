@@ -1,23 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
+import NavBar from './components/navbar/NavBar';
+import 'semantic-ui-css/semantic.min.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
+import Weather from './components/weather/Weather';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <NavBar />
+        <Switch>
+          <Route path="/home">
+            <div>Home</div>
+          </Route>
+          <Route path="/weather">
+            <Weather />
+          </Route>
+          <Route exact path="/" render={() => (<Redirect to="/home" />)} />
+          <Route exact path="/*" render={() => (<Redirect to="/home" />)} />
+        </Switch>
+      </Router>
     </div>
   );
 }
