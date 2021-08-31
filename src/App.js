@@ -8,6 +8,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import Weather from './components/weather/Weather';
+import Home from './components/home/Home';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
         <NavBar />
         <Switch>
           <Route path="/home">
-            <div>Home</div>
+            <Home />
           </Route>
           <Route path="/weather">
             <Weather />

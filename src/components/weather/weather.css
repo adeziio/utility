@@ -1,0 +1,26 @@
+.temp-f {
+    font-size: 32px;
+    padding: 1rem;
+}
+
+.temp-c {
+    font-size: 20px;
+    padding: 0.2rem;
+}
+
+.condition {
+    text-align: center;
+    margin-right: 1rem;
+}
+
+.location {
+    text-align: center;
+    margin-left: 1rem;
+}
+
+.location-name {
+    padding-top: 1rem;
+    font-size: 24px;
+    display: inline-block;
+}
+
