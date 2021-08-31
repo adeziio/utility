@@ -12,6 +12,10 @@ export default class Weather extends Component {
         }
     }
 
+    componentDidMount() {
+        document.title = "Utility - Weather"
+    }
+
     fetchData = (search) => {
         if (this.state.delayCounter === 1) {
             fetch("https://weatherapi-com.p.rapidapi.com/forecast.json?q=" + search + "&days=7", {

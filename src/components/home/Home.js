@@ -11,6 +11,7 @@ export default class Weather extends Component {
     }
 
     componentDidMount() {
+        document.title = "Utility - Home"
     }
 
     render() {
