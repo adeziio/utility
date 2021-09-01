@@ -67,9 +67,9 @@ export default class Weather extends Component {
     }
 
     formatDate = (date) => {
-        const d = new Date(date);
+        const d = new Date(date + "T00:00:00");
         const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-        const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
+        const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d);
         const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
         return this.dayNumberToString(d.getDay()) + ` ${mo}-${da}-${ye}`;
     }
@@ -78,25 +78,25 @@ export default class Weather extends Component {
         let day = ""
         switch (d) {
             case 0:
-                day = "Sunday";
+                day = "Sun";
                 break;
             case 1:
-                day = "Monday";
+                day = "Mon";
                 break;
             case 2:
-                day = "Tuesday";
+                day = "Tue";
                 break;
             case 3:
-                day = "Wednesday";
+                day = "Wed";
                 break;
             case 4:
-                day = "Thursday";
+                day = "Thu";
                 break;
             case 5:
-                day = "Friday";
+                day = "Fri";
                 break;
             case 6:
-                day = "Saturday";
+                day = "Sat";
                 break;
             default:
                 day = "";
@@ -106,7 +106,7 @@ export default class Weather extends Component {
 
     render() {
         const { data, expandHours } = this.state;
-        console.log(data)
+
         return (
             <div>
                 <Input placeholder='Search City or Zip Code' onChange={this.handleInput} />
@@ -125,14 +125,14 @@ export default class Weather extends Component {
                                     </Grid.Column>
                                     <Grid.Column >
                                         <div className="location">
-                                            <div className="location-name">{`${data.location.name},`}</div>
-                                            <div className="location-name">{`${data.location.region}`}</div>
-                                            <div className="location-name">{`${data.location.country}`}</div>
                                             <div className="location-time">{` Last updated: 
                                                 ${this.formatDate(data.current.last_updated.split(' ')[0])} 
                                                 ${this.convertToStandardTime(data.current.last_updated.split(' ')[1].split(':')[0])} 
                                                 ${data.location.tz_id}`}
                                             </div>
+                                            <div className="location-name">{`${data.location.name},`}</div>
+                                            <div className="location-name">{`${data.location.region}`}</div>
+                                            <div className="location-name">{`${data.location.country}`}</div>
                                             <div className="info">
                                                 <div><span className="bold">{`Humidity: `}</span>{`${data.current.humidity}%`}</div>
                                                 <div><span className="bold">{`Wind: `}</span>{`${data.current.wind_dir} ${data.current.wind_mph} mph`}</div>
@@ -148,7 +148,11 @@ export default class Weather extends Component {
                                             {data.forecast.forecastday[0].hour ?
                                                 data.forecast.forecastday[0].hour.filter((item, index) => index < 12).map((forecastday, index) => (
                                                     <Grid.Column key={index}>
-                                                        <div className={"condition"}>
+
+                                                        <div className={"condition " +
+                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) <= Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
+                                                                "highlight" : "")
+                                                        }>
                                                             <div className="info">{`${forecastday.time.split(' ')[0]}`}</div>
                                                             <div className="info bold">{`${this.convertToStandardTime(forecastday.time.split(' ')[1].split(':')[0])}`}</div>
                                                             <Image src={forecastday.condition.icon} centered size="mini" />
@@ -163,7 +167,10 @@ export default class Weather extends Component {
                                             {data.forecast.forecastday[0].hour ?
                                                 data.forecast.forecastday[0].hour.filter((item, index) => index >= 12).map((forecastday, index) => (
                                                     <Grid.Column key={index}>
-                                                        <div className={"condition"}>
+                                                        <div className={"condition " +
+                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) <= Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
+                                                                "highlight" : "")
+                                                        }>
                                                             <div className="info">{`${forecastday.time.split(' ')[0]}`}</div>
                                                             <div className="info bold">{`${this.convertToStandardTime(forecastday.time.split(' ')[1].split(':')[0])}`}</div>
                                                             <Image src={forecastday.condition.icon} centered size="mini" />
@@ -183,7 +190,7 @@ export default class Weather extends Component {
                                                 data.forecast.forecastday.map((forecastday, index) => (
                                                     <Grid.Column key={index}>
                                                         <div className="condition border-top">
-                                                            <div className="info bold">{`${this.formatDate(forecastday.date)}`}</div>
+                                                            <div className="info">{`${this.formatDate(forecastday.date)}`}</div>
                                                             <Image src={forecastday.day.condition.icon} centered />
                                                             <div>{forecastday.day.condition.text}</div>
                                                             <div className="temp-f">{`${forecastday.day.avgtemp_f}°F`}</div>
