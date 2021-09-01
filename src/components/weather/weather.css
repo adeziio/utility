@@ -13,7 +13,7 @@
 }
 
 .info {
-    margin: 1%;
+    margin: 2%;
 }
 
 .condition {
@@ -42,8 +42,12 @@
     padding-bottom: 1rem;
 }
 
-.highlight {
-    background-color: lightyellow;
+.highlight-gray {
+    background-color: lightgray; 
+}
+
+.highlight-yellow {
+    background-color: lightyellow; 
 }
 
 .border-top {

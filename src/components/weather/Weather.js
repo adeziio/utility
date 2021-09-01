@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Grid, Image, Button } from 'semantic-ui-react';
+import { Input, Grid, Image, Button, Icon } from 'semantic-ui-react';
 import './weather.css'
 
 export default class Weather extends Component {
@@ -8,6 +8,7 @@ export default class Weather extends Component {
         this.state = {
             delayCounter: 0,
             expandHours: false,
+            search: "",
             data: {}
         }
     }
@@ -35,6 +36,7 @@ export default class Weather extends Component {
 
     handleInput = (e) => {
         this.setState({
+            search: e.target.value,
             delayCounter: this.state.delayCounter + 1
         }, () => {
             setTimeout(() => {
@@ -104,6 +106,16 @@ export default class Weather extends Component {
         return day;
     }
 
+    refresh = () => {
+        this.setState({
+            delayCounter: this.state.delayCounter + 1
+        }, () => {
+            setTimeout(() => {
+                this.fetchData(this.state.search);
+            }, 1200)
+        })
+    }
+
     render() {
         const { data, expandHours } = this.state;
 
@@ -114,10 +126,12 @@ export default class Weather extends Component {
                     <Grid relaxed centered stackable>
                         {data.current ?
                             <>
-                                <Grid.Row columns={5} >
+                                <Grid.Row columns={7} >
                                     <Grid.Column >
                                         <div className="condition">
                                             <Image src={data.current.condition.icon} centered />
+                                            <div className="info"><Icon name='rain' />{`${data.forecast.forecastday[0].day.daily_chance_of_rain}%`}</div>
+                                            <div className="info"><Icon name='snowflake' />{`${data.forecast.forecastday[0].day.daily_chance_of_snow}%`}</div>
                                             <div className="info-text">{data.current.condition.text}</div>
                                             <div className="temp-f">{`${data.current.temp_f}°F`}</div>
                                             <div className="temp-c">{`${data.current.temp_c}°c`}</div>
@@ -125,6 +139,7 @@ export default class Weather extends Component {
                                     </Grid.Column>
                                     <Grid.Column >
                                         <div className="location">
+                                            <Button icon onClick={this.refresh} className="info"><Icon name='refresh' /></Button>
                                             <div className="location-time">{` Last updated: 
                                                 ${this.formatDate(data.current.last_updated.split(' ')[0])} 
                                                 ${this.convertToStandardTime(data.current.last_updated.split(' ')[1].split(':')[0])} 
@@ -150,12 +165,16 @@ export default class Weather extends Component {
                                                     <Grid.Column key={index}>
 
                                                         <div className={"condition " +
-                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) <= Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
-                                                                "highlight" : "")
+                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) < Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
+                                                                "highlight-gray " : "") +
+                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) === Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
+                                                                "highlight-yellow " : "")
                                                         }>
                                                             <div className="info">{`${forecastday.time.split(' ')[0]}`}</div>
                                                             <div className="info bold">{`${this.convertToStandardTime(forecastday.time.split(' ')[1].split(':')[0])}`}</div>
                                                             <Image src={forecastday.condition.icon} centered size="mini" />
+                                                            <div className="info"><Icon name='rain' />{`${forecastday.chance_of_rain}%`}</div>
+                                                            <div className="info"><Icon name='snowflake' />{`${forecastday.chance_of_snow}%`}</div>
                                                             <div className="info-text">{forecastday.condition.text}</div>
                                                             <div className="temp-f">{`${forecastday.temp_f}°F`}</div>
                                                             <div className="temp-c">{`${forecastday.temp_c}°c`}</div>
@@ -168,12 +187,16 @@ export default class Weather extends Component {
                                                 data.forecast.forecastday[0].hour.filter((item, index) => index >= 12).map((forecastday, index) => (
                                                     <Grid.Column key={index}>
                                                         <div className={"condition " +
-                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) <= Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
-                                                                "highlight" : "")
+                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) < Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
+                                                                "highlight-gray " : "") +
+                                                            (Number(forecastday.time.split(' ')[1].split(':')[0]) === Number(data.current.last_updated.split(' ')[1].split(':')[0]) ?
+                                                                "highlight-yellow " : "")
                                                         }>
                                                             <div className="info">{`${forecastday.time.split(' ')[0]}`}</div>
                                                             <div className="info bold">{`${this.convertToStandardTime(forecastday.time.split(' ')[1].split(':')[0])}`}</div>
                                                             <Image src={forecastday.condition.icon} centered size="mini" />
+                                                            <div className="info"><Icon name='rain' />{`${forecastday.chance_of_rain}%`}</div>
+                                                            <div className="info"><Icon name='snowflake' />{`${forecastday.chance_of_snow}%`}</div>
                                                             <div className="info-text">{forecastday.condition.text}</div>
                                                             <div className="temp-f">{`${forecastday.temp_f}°F`}</div>
                                                             <div className="temp-c">{`${forecastday.temp_c}°c`}</div>
@@ -192,6 +215,8 @@ export default class Weather extends Component {
                                                         <div className="condition border-top">
                                                             <div className="info">{`${this.formatDate(forecastday.date)}`}</div>
                                                             <Image src={forecastday.day.condition.icon} centered />
+                                                            <div className="info"><Icon name='rain' />{`${forecastday.day.daily_chance_of_rain}%`}</div>
+                                                            <div className="info"><Icon name='snowflake' />{`${forecastday.day.daily_chance_of_snow}%`}</div>
                                                             <div>{forecastday.day.condition.text}</div>
                                                             <div className="temp-f">{`${forecastday.day.avgtemp_f}°F`}</div>
                                                             <div className="temp-c">{`${forecastday.day.avgtemp_c}°c`}</div>
