@@ -1,5 +1,9 @@
+.bold {
+    font-weight: bold;
+}
+
 .temp-f {
-    font-size: 32px;
+    font-size: 28px;
     padding: 1rem;
 }
 
@@ -8,14 +12,19 @@
     padding: 0.2rem;
 }
 
+.info {
+    margin: 1%;
+}
+
 .condition {
     text-align: center;
-    margin-right: 1rem;
+    margin: 1rem;
 }
 
 .location {
     text-align: center;
     margin-left: 1rem;
+    margin: 10%;
 }
 
 .location-name {
@@ -24,3 +33,19 @@
     display: inline-block;
 }
 
+.location-time {
+    font-size: 13px;
+    display: inline-block;
+}
+
+.info-text {
+    padding-bottom: 1rem;
+}
+
+.highlight {
+    background-color: lightyellow;
+}
+
+.border-top {
+    border-top: 1px solid lightgray;
+}
