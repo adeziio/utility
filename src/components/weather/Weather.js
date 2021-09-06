@@ -23,7 +23,7 @@ export default class Weather extends Component {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "weatherapi-com.p.rapidapi.com",
-                    "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
+                    "x-rapidapi-key": process.env.REACT_APP_WEATHER_API_KEY
                 }
             })
                 .then(response => response.json())
