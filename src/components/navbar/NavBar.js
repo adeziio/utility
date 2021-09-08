@@ -9,7 +9,7 @@ export default class NavBar extends Component {
         super(props);
         this.state = {
             activeItem: window.location.pathname,
-            paths: ["/home", "/weather"]
+            paths: ["/search"]
         }
     }
 
@@ -21,7 +21,8 @@ export default class NavBar extends Component {
 
     render() {
         let { paths, activeItem } = this.state;
-        activeItem = paths.some((item) => item === activeItem) ? activeItem : "/home";
+        activeItem = paths.some((item) => item === activeItem) ? activeItem : "/search";
+
         return (
             <Menu
                 size="large"
@@ -32,31 +33,23 @@ export default class NavBar extends Component {
                 className="navbar-container"
             >
                 <Menu.Item>
-                    <Header as='h2' inverted color="green">
-                        <Icon name='game' />
+                    <Header as='h2' inverted color="white">
+                        <Icon name='sun' />
                         <Header.Content>
                             adeziio
-                            <Header.Subheader>Utility App</Header.Subheader>
+                            <Header.Subheader>Weather App</Header.Subheader>
                         </Header.Content>
                     </Header>
                 </Menu.Item>
+
                 <Menu.Item
                     as={Link}
-                    to='/home'
-                    name='/home'
-                    active={activeItem === '/home'}
+                    to='/search'
+                    name='/search'
+                    active={activeItem === '/search'}
                     onClick={this.handleItemClick}
                 >
-                    Home
-                </Menu.Item>
-                <Menu.Item
-                    as={Link}
-                    to='/weather'
-                    name='/weather'
-                    active={activeItem === '/weather'}
-                    onClick={this.handleItemClick}
-                >
-                    Weather
+                    Search
                 </Menu.Item>
             </Menu>
         )

@@ -7,9 +7,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
-import Weather from './components/weather/Weather';
-import Home from './components/home/Home';
-
+import Search from './components/search/Search';
 
 function App() {
   return (
@@ -17,14 +15,11 @@ function App() {
       <Router>
         <NavBar />
         <Switch>
-          <Route path="/home">
-            <Home />
+          <Route path="/search">
+            <Search />
           </Route>
-          <Route path="/weather">
-            <Weather />
-          </Route>
-          <Route exact path="/" render={() => (<Redirect to="/home" />)} />
-          <Route exact path="/*" render={() => (<Redirect to="/home" />)} />
+          <Route exact path="/" render={() => (<Redirect to="/search" />)} />
+          <Route exact path="/*" render={() => (<Redirect to="/search" />)} />
         </Switch>
       </Router>
     </div>

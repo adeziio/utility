@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Input, Grid, Image, Button, Icon } from 'semantic-ui-react';
-import './weather.css'
+import './Search.css'
 
-export default class Weather extends Component {
+export default class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +14,7 @@ export default class Weather extends Component {
     }
 
     componentDidMount() {
-        document.title = "Utility - Weather"
+        document.title = "Weather"
     }
 
     fetchData = (search) => {
