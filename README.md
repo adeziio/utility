@@ -1,4 +1,4 @@
-[(https://adeziio-utility.herokuapp.com/)]
+[(https://weather-adeziio.vercel.app/)]
 
 # Getting Started with Create React App
 
