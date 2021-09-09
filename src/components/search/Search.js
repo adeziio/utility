@@ -136,7 +136,7 @@ export default class Search extends Component {
 
         return (
             <div>
-                <Input className="border" placeholder='Search City or Zip Code' onChange={this.handleInput} size="huge" />
+                <Input className="border" placeholder='Search City / Zip Code' onChange={this.handleInput} size="huge" />
                 <p style={{ color: "red" }}>{data.error && search !== "" ? data.error.message : ""}</p>
                 {data ?
                     <Grid relaxed centered stackable>
