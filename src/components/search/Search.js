@@ -17,30 +17,18 @@ export default class Search extends Component {
 
     componentDidMount = () => {
         document.title = "Weather";
-        this.position();
+        this.fetchLocation();
     }
 
-    position = async () => {
+    fetchLocation = async () => {
         await navigator.geolocation.getCurrentPosition(
             position => this.setState({
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude,
                 delayCounter: this.state.delayCounter + 1
-            }, () => this.fetchLocation(this.state.longitude, this.state.latitude)),
+            }, () => { this.fetchData(`${this.state.latitude},${this.state.longitude}`) }),
             err => console.error(err)
         );
-    }
-
-    fetchLocation = (longitude, latitude) => {
-        fetch(`https://geocodeapi.p.rapidapi.com/GetNearestCities?range=0&longitude=${longitude}&latitude=${latitude}`, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
-                "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
-            }
-        })
-            .then(response => response.json())
-            .then(resData => this.fetchData(`${resData[0].City}, ${resData[0].Country}`))
     }
 
     fetchData = (search) => {
