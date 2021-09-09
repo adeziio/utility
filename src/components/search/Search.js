@@ -8,13 +8,39 @@ export default class Search extends Component {
         this.state = {
             delayCounter: 0,
             expandHours: false,
+            latitude: "",
+            longitude: "",
             search: "",
             data: {}
         }
     }
 
-    componentDidMount() {
-        document.title = "Weather"
+    componentDidMount = () => {
+        document.title = "Weather";
+        this.position();
+    }
+
+    position = async () => {
+        await navigator.geolocation.getCurrentPosition(
+            position => this.setState({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                delayCounter: this.state.delayCounter + 1
+            }, () => this.fetchLocation(this.state.longitude, this.state.latitude)),
+            err => console.error(err)
+        );
+    }
+
+    fetchLocation = (longitude, latitude) => {
+        fetch(`https://geocodeapi.p.rapidapi.com/GetNearestCities?range=0&longitude=${longitude}&latitude=${latitude}`, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "geocodeapi.p.rapidapi.com",
+                "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
+            }
+        })
+            .then(response => response.json())
+            .then(resData => this.fetchData(`${resData[0].City}, ${resData[0].Country}`))
     }
 
     fetchData = (search) => {
@@ -23,7 +49,7 @@ export default class Search extends Component {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "weatherapi-com.p.rapidapi.com",
-                    "x-rapidapi-key": process.env.REACT_APP_WEATHER_API_KEY
+                    "x-rapidapi-key": process.env.REACT_APP_RAPID_API_KEY
                 }
             })
                 .then(response => response.json())
@@ -117,11 +143,12 @@ export default class Search extends Component {
     }
 
     render() {
-        const { data, expandHours } = this.state;
+        const { data, search, expandHours } = this.state;
 
         return (
             <div>
-                <Input placeholder='Search City or Zip Code' onChange={this.handleInput} />
+                <Input className="border" placeholder='Search City or Zip Code' onChange={this.handleInput} size="huge" />
+                <p style={{ color: "red" }}>{data.error && search !== "" ? data.error.message : ""}</p>
                 {data ?
                     <Grid relaxed centered stackable>
                         {data.current ?
@@ -228,13 +255,8 @@ export default class Search extends Component {
                                 </Grid.Row>
                             </> : null
                         }
-
-
-
                     </Grid> : null
                 }
-
-
             </div>
         )
     }
