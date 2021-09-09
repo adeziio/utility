@@ -6,11 +6,12 @@ export default class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            delayCounter: 0,
+            delayCounter: 1,
             expandHours: false,
             latitude: "",
             longitude: "",
             search: "",
+            postal: "",
             data: {}
         }
     }
@@ -21,23 +22,34 @@ export default class Search extends Component {
     }
 
     fetchLocation = async () => {
-        await navigator.geolocation.getCurrentPosition(
-            position => this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                delayCounter: this.state.delayCounter + 1
-            }, () => { this.fetchData(`${this.state.latitude},${this.state.longitude}`) }),
-            err => console.error(err)
-        );
+        // await navigator.geolocation.getCurrentPosition(
+        //     position => this.setState({
+        //         latitude: position.coords.latitude,
+        //         longitude: position.coords.longitude,
+        //         delayCounter: this.state.delayCounter + 1
+        //     }, () => { this.fetchData(`${this.state.latitude},${this.state.longitude}`) }),
+        //     err => console.error(err)
+        // );
+        fetch("https://geolocation-db.com/json/", {
+            "method": "GET",
+        })
+            .then(response => response.json())
+            .then(resData => {
+                this.setState({
+                    postal: resData.postal
+                }, () => { this.fetchData(resData.postal) })
+
+            })
+
     }
 
     fetchData = (search) => {
         let newSearch = search;
         if (this.state.delayCounter === 1) {
             if (search === "") { // Default to current location if search bar is empty
-                newSearch = `${this.state.latitude},${this.state.longitude}`;
+                newSearch = `${this.state.postal}`;
             }
-            fetch("https://weatherapi-com.p.rapidapi.com/forecast.json?q=" + newSearch + "&days=7", {
+            fetch("https://weatherapi-com.p.rapidapi.com/forecast.json?q=" + newSearch + "&days=3", {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "weatherapi-com.p.rapidapi.com",
