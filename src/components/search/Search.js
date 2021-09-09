@@ -32,8 +32,12 @@ export default class Search extends Component {
     }
 
     fetchData = (search) => {
+        let newSearch = search;
         if (this.state.delayCounter === 1) {
-            fetch("https://weatherapi-com.p.rapidapi.com/forecast.json?q=" + search + "&days=7", {
+            if (search === "") { // Default to current location if search bar is empty
+                newSearch = `${this.state.latitude},${this.state.longitude}`;
+            }
+            fetch("https://weatherapi-com.p.rapidapi.com/forecast.json?q=" + newSearch + "&days=7", {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "weatherapi-com.p.rapidapi.com",
@@ -120,16 +124,6 @@ export default class Search extends Component {
         return day;
     }
 
-    refresh = () => {
-        this.setState({
-            delayCounter: this.state.delayCounter + 1
-        }, () => {
-            setTimeout(() => {
-                this.fetchData(this.state.search);
-            }, 1200)
-        })
-    }
-
     render() {
         const { data, search, expandHours } = this.state;
 
@@ -154,7 +148,6 @@ export default class Search extends Component {
                                     </Grid.Column>
                                     <Grid.Column >
                                         <div className="location">
-                                            <Button icon onClick={this.refresh} className="info"><Icon name='refresh' /></Button>
                                             <div className="location-time">{` Last updated: 
                                                 ${this.formatDate(data.current.last_updated.split(' ')[0])} 
                                                 ${this.convertToStandardTime(data.current.last_updated.split(' ')[1].split(':')[0])} 
