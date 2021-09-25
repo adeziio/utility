@@ -57,6 +57,7 @@ export default class Search extends Component {
         this.setState({
             delayCounter: this.state.delayCounter - 1
         })
+        console.log("test branch")
     }
 
     handleInput = (e) => {
