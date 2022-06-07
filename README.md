@@ -1,4 +1,4 @@
-# Demo - https://zweather.vercel.app
+# Demo - https://zweather.vercel.app/
 
 # Getting Started with Create React App
 
