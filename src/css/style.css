@@ -49,11 +49,11 @@
 }
 
 .highlight-gray {
-    background-color: lightgray; 
+    background-color: lightgray;
 }
 
 .highlight-yellow {
-    background-color: lightyellow; 
+    background-color: lightyellow;
 }
 
 .border-top {
@@ -62,4 +62,8 @@
 
 .border {
     border: 1px solid lightgray;
+}
+
+.margin-top {
+    margin-top: 3rem;
 }

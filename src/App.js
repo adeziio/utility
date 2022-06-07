@@ -1,5 +1,4 @@
 import './App.css';
-import NavBar from './components/navbar/NavBar';
 import 'semantic-ui-css/semantic.min.css';
 import {
   BrowserRouter as Router,
@@ -7,19 +6,18 @@ import {
   Route,
   Redirect
 } from 'react-router-dom';
-import Search from './components/search/Search';
+import Search from './components/Search';
+import "./css/style.css";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
         <Switch>
-          <Route path="/search">
+          <Route path="/">
             <Search />
           </Route>
-          <Route exact path="/" render={() => (<Redirect to="/search" />)} />
-          <Route exact path="/*" render={() => (<Redirect to="/search" />)} />
+          <Route exact path="/*" render={() => (<Redirect to="/" />)} />
         </Switch>
       </Router>
     </div>

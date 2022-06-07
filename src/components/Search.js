@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Grid, Image, Button, Icon } from 'semantic-ui-react';
-import './Search.css'
+
 
 export default class Search extends Component {
     constructor(props) {
@@ -136,7 +136,7 @@ export default class Search extends Component {
 
         return (
             <div>
-                <Input className="border" placeholder='Search City / Zip Code' onChange={this.handleInput} size="huge" />
+                <Input className="border margin-top" placeholder='Search City / Zip Code' onChange={this.handleInput} size="huge" />
                 <p style={{ color: "red" }}>{data.error && search !== "" ? data.error.message : ""}</p>
                 {data ?
                     <Grid relaxed centered stackable>
